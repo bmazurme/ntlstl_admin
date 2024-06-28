@@ -11,7 +11,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import InterpolateHtmlPlugin from 'interpolate-html-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
-import CompressionPlugin from 'compression-webpack-plugin';
+// import CompressionPlugin from 'compression-webpack-plugin';
 
 import type { Configuration } from 'webpack';
 import common from './webpack.common';
@@ -62,7 +62,6 @@ const client = (env: { production?: boolean; }) => merge<Configuration & { devSe
             },
           ],
         },
-        // minify: CssMinimizerPlugin.cleanCssMinify,
       }),
     ],
   },
@@ -76,7 +75,7 @@ const client = (env: { production?: boolean; }) => merge<Configuration & { devSe
       inject: true,
       template: './public/index.html',
       preconnect: [
-        'https://api.admin.ntlstl.dev',
+        // 'https://api.admin.ntlstl.dev',
       ],
     }),
     new HtmlWebpackPreconnectPlugin(),
@@ -91,13 +90,11 @@ const client = (env: { production?: boolean; }) => merge<Configuration & { devSe
         { from: 'public/manifest.json', to: '.' },
         { from: 'public/favicon.ico', to: '.' },
         { from: 'public/robots.txt', to: '.' },
-        // { from: 'public/logo192.png', to: '.' },
-        // { from: 'public/logo512.png', to: '.' },
       ],
     }),
-    new CompressionPlugin({
-      test: /\.js(\?.*)?$/i,
-    }),
+    // new CompressionPlugin({
+    //   test: /\.js(\?.*)?$/i,
+    // }),
   ],
   module: {
     rules: [
@@ -112,7 +109,6 @@ const client = (env: { production?: boolean; }) => merge<Configuration & { devSe
       },
       {
         test: /\.css$/,
-        // exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader, {
             loader: 'css-loader',

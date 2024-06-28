@@ -17,7 +17,6 @@ import common from './webpack.common';
 dotEnvConfig();
 
 const client = (env: { production?: boolean; }) => merge<Configuration & {devServer?: any}>(common, {
-  // devtool: 'inline-source-map',
   optimization: {
     minimize: false,
     minimizer: [
@@ -76,7 +75,6 @@ const client = (env: { production?: boolean; }) => merge<Configuration & {devSer
       },
       {
         test: /\.css$/,
-        // exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader, {
             loader: 'css-loader',

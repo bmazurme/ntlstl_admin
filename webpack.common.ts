@@ -16,7 +16,6 @@ const common = merge<Configuration & {devServer?: any}>({
   entry: ['./src/index.tsx'],
   output: {
     publicPath: '/',
-    // filename: 'bundle.js',
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].bundle.js',
     path: path.join(__dirname, 'build'),
