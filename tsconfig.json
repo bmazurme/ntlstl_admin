@@ -2,35 +2,45 @@
   "compilerOptions": {
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "es2020"
     ],
+    // "module": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es6",
+    "jsx": "react",
+    "importHelpers": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "skipLibCheck": true,
     "declaration": false,
     "sourceMap": false,
     "baseUrl": ".",
-    "outDir": "./dist/",
-    "noImplicitAny": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowUmdGlobalAccess": true,
-    "strict": true,
-    "moduleResolution": "node",
-    "target": "es6",
-    "jsx": "react",
-    "allowJs": true,
-    "typeRoots": ["node_modules/@types", "./src/@types/*.d.ts", "./src/@types/custom.d.ts"],
-    "types": ["node"],
+    "outDir": "./dist",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["src/*"]
     },
+    "typeRoots": [
+      "src/@types/*.d.ts",
+      "typings/**/*.d.ts",
+      "node_modules/@types",
+      "src/*.d.ts",
+      "src/@types"
+    ]
   },
-  "include": ["src", "**/*.d.ts", "./src/@types/*.d.ts", "../backend/server", "**/*.ts"],
+  "include": [
+    "src",
+    "src/*.d.ts",
+    "typings/**/*.d.ts",
+    "../webpack.config.ts",
+    "./node_modules/@types",
+    "src/@types/*.d.ts",
+    "server",
+  ],
   "exclude": [
-    "node_modues", "**/*.js"
+    "**/*.js"
   ]
 }
