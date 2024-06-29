@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { PaletteMode } from '@mui/material';
 
 export default function useDarkTheme() {
-  const currentTheme = localStorage.getItem('data-theme');
-  const condition = currentTheme === 'dark' ? 'dark' : 'light';
-  const [isDark, setIsDark] = useState(condition);
+  const currentTheme = localStorage.getItem('ms-theme');
+  const condition: PaletteMode = currentTheme === 'dark' ? 'dark' : 'light';
+  const [isDark, setIsDark] = useState<PaletteMode>(condition);
   const providerValue = { isDark, setIsDark };
-
-  useEffect(() => document.documentElement.setAttribute('data-theme', condition), [isDark]);
+  // useEffect(() => document.documentElement.setAttribute('ms-theme', condition), [isDark]);
 
   return { providerValue };
 }
