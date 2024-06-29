@@ -1,6 +1,11 @@
 import React, { createContext } from 'react';
 
-type ThemeType = { isDark: string, setIsDark: React.Dispatch<React.SetStateAction<string>> };
+import { PaletteMode } from '@mui/material';
+
+type ThemeType = {
+  isDark: PaletteMode,
+  setIsDark: React.Dispatch<React.SetStateAction<PaletteMode>>,
+};
 
 // Context lets us pass a value deep into the component tree
 // without explicitly threading it through every component.
