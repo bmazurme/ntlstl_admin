@@ -1,47 +1,87 @@
-/* eslint-disable react/button-has-type */
 import React from 'react';
 import type { PropsWithChildren } from 'react';
 import { ErrorBoundary, type FallbackProps } from 'react-error-boundary';
-import { useNavigate } from 'react-router-dom';
 
-import style from './error-boundary.module.css';
+import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+import Content from '../content';
+
+import { textCenter, boxProps, boxSecondaryProps } from './error-boundary-wrapper.style';
 
 type ErrorBoundaryWrapperProps = PropsWithChildren<unknown>;
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  const navigate = useNavigate();
-  const onReset = () => {
-    resetErrorBoundary();
-    navigate('/');
-  };
-
   return (
-    <div className={style.boundary}>
-      <h2 className={style.title}>APP-ERROR</h2>
-      <p className={style.message}>{error?.message}</p>
-      <div className={style.block}>
-        Try to
-        <button className={style.button} onClick={resetErrorBoundary}>
-          Reload app
-        </button>
-        or
-        <button className={style.link} onClick={onReset}>
-          Go to homepage
-        </button>
-      </div>
-    </div>
+    <Content
+      children={(
+        <Box sx={boxProps}>
+          <Typography
+            textAlign="center"
+            variant="h2"
+            gutterBottom
+          >
+            APP-ERROR
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            textAlign="center"
+            gutterBottom
+          >
+            {error.message}
+          </Typography>
+          <Box sx={boxSecondaryProps}>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={textCenter}
+            >
+              Try to
+            </Typography>
+            <Button
+              onClick={resetErrorBoundary}
+              variant="text"
+            >
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                sx={textCenter}
+              >
+                Reload app
+              </Typography>
+            </Button>
+            <Typography
+              variant="subtitle1"
+              gutterBottom
+              sx={textCenter}
+            >
+              or
+            </Typography>
+            <Button
+              onClick={resetErrorBoundary}
+              variant="text"
+              size="small"
+              href="/"
+            >
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                sx={textCenter}
+              >
+                Go to homepage
+              </Typography>
+            </Button>
+          </Box>
+        </Box>
+      )}
+    />
   );
 }
 
 export default function ErrorBoundaryWrapper({ children }: ErrorBoundaryWrapperProps) {
   return (
-    <ErrorBoundary
-      FallbackComponent={ErrorFallback}
-      onReset={(details) => {
-        // Reset the state of your app so the error doesn't happen again
-        console.log(details);
-      }}
-    >
+    <ErrorBoundary onReset={() => console.log('reset')} FallbackComponent={ErrorFallback}>
       {children}
     </ErrorBoundary>
   );
