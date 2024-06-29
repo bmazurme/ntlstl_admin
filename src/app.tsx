@@ -1,41 +1,55 @@
-import React, { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import React, { Suspense, lazy, useMemo } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import 'react-toastify/dist/ReactToastify.css';
 
-import MainPage from './pages/main-page';
-import KitPage from './pages/kit-page';
-import NotFoundPage from './pages/not-found-page';
-
-// import useHistory from './hooks/use-history';
 import ThemeContext from './context/theme-context';
-
-// import useWindowDimensions, { getVisualProps } from './hooks/use-window-dimensions';
+import ErrorBoundaryWrapper from './components/error-boundary';
 import useDarkTheme from './hooks/use-dark-theme';
+import { useAppLocation } from './hooks/use-app-location';
 
-import { Urls } from './utils';
+import { getDesignTokens } from './utils/get-design-tokens';
+import { Urls } from './utils/constant';
+
+const MainPage = lazy(() => import('./pages/main-page'));
+const KitPage = lazy(() => import('./pages/kit-page'));
+const NotFoundPage = lazy(() => import('./pages/not-found-page'));
 
 export default function App() {
+  const location = useAppLocation();
+  const background = location.state?.pathname;
   const { providerValue } = useDarkTheme();
-  // const history = useHistory();
-  const location = useLocation();
-
-  useEffect(() => {
-    location.state = null;
-  }, []);
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(providerValue.isDark)),
+    [providerValue.isDark],
+  );
 
   return (
     <ThemeContext.Provider value={providerValue}>
-      <Routes location={location.state?.pathname || location}>
-        <Route path={Urls.BASE.INDEX} element={(<MainPage />)} />
-        <Route path={Urls.KIT.INDEX} element={(<KitPage />)} />
-        <Route path={Urls[404]} element={(<NotFoundPage />)} />
-      </Routes>
-
-      {/* {location.state?.pathname
-        && (
-          <Routes>
-            <Route path={Urls.SUPPORT.INDEX} element={(<SupportModalPage />)} />
-          </Routes>
-        )} */}
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ErrorBoundaryWrapper>
+          <Suspense>
+            <Routes location={background || location}>
+              <Route path={Urls.BASE.INDEX} element={(<MainPage />)} />
+              <Route path={Urls.KIT.INDEX} element={(<KitPage />)} />
+              <Route path={Urls[404]} element={(<NotFoundPage />)} />
+            </Routes>
+          </Suspense>
+          {background
+          && (
+            <Suspense>
+              <Routes>
+                {/* <Route path={Urls.USERS.CURRENT_EDIT} element={(<UserEditModalPage />)} />
+                <Route path={Urls.CARDS.CURRENT} element={(<CardModalPage />)} /> */}
+              </Routes>
+            </Suspense>
+          )}
+          <ToastContainer theme={providerValue.isDark} />
+        </ErrorBoundaryWrapper>
+      </ThemeProvider>
     </ThemeContext.Provider>
   );
 }
