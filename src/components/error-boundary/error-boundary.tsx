@@ -81,7 +81,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 
 export default function ErrorBoundaryWrapper({ children }: ErrorBoundaryWrapperProps) {
   return (
-    <ErrorBoundary onReset={() => console.log('reset')} FallbackComponent={ErrorFallback}>
+    <ErrorBoundary onReset={() => window.location.reload()} FallbackComponent={ErrorFallback}>
       {children}
     </ErrorBoundary>
   );
